@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Profile | CarPredict{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-heading">
+
+        <div>
+
+            <span class="eyebrow">
+                ACCOUNT
+            </span>
+
+            <h1>
+                My Profile
+            </h1>
+
+            <p>
+                View your CarPredict account information.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="profile-card">
+
+        <div class="profile-avatar">
+            {{ user["name"][0]|upper }}
+        </div>
+
+        <div class="profile-details">
+
+            <h2>
+                {{ user["name"] }}
+            </h2>
+
+            <p>
+                @{{ user["username"] }}
+            </p>
+
+            <div class="profile-status">
+                ✓ Active Account
+            </div>
+
+        </div>
+
+
+        <div class="profile-information">
+
+            <div>
+
+                <span>
+                    FULL NAME
+                </span>
+
+                <strong>
+                    {{ user["name"] }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    USERNAME
+                </span>
+
+                <strong>
+                    {{ user["username"] }}
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    ACCOUNT CREATED
+                </span>
+
+                <strong>
+                    {{ user["created_at"] }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

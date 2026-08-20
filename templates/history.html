@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Prediction History | CarPredict{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="page-heading">
+
+        <div>
+
+            <span class="eyebrow">
+                ACTIVITY
+            </span>
+
+            <h1>
+                Prediction History
+            </h1>
+
+            <p>
+                View all your previous car price predictions.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('predict') }}"
+            class="primary-button"
+        >
+            + New Prediction
+        </a>
+
+    </div>
+
+
+    <div class="table-card">
+
+        {% if predictions %}
+
+        <div class="table-responsive">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>DATE</th>
+                        <th>YEAR</th>
+                        <th>PRESENT PRICE</th>
+                        <th>KILOMETERS</th>
+                        <th>FUEL</th>
+                        <th>SELLER</th>
+                        <th>TRANSMISSION</th>
+                        <th>OWNERS</th>
+                        <th>PREDICTED PRICE</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in predictions %}
+
+                    <tr>
+
+                        <td>
+                            {{ item["created_at"] }}
+                        </td>
+
+                        <td>
+                            {{ item["year"] }}
+                        </td>
+
+                        <td>
+                            ₹{{ "%.2f"|format(item["present_price"]) }} L
+                        </td>
+
+                        <td>
+                            {{ "{:,.0f}".format(item["kms_driven"]) }}
+                        </td>
+
+                        <td>
+                            <span class="badge">
+                                {{ item["fuel_type"] }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ item["seller_type"] }}
+                        </td>
+
+                        <td>
+                            {{ item["transmission"] }}
+                        </td>
+
+                        <td>
+                            {{ item["owner"] }}
+                        </td>
+
+                        <td class="price-cell">
+                            ₹{{ "%.2f"|format(item["predicted_price"]) }} L
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <div>📊</div>
+
+            <h3>
+                No prediction history
+            </h3>
+
+            <p>
+                Your completed predictions will appear here.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

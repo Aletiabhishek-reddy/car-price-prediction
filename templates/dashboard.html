@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | CarPredict{% endblock %}
+
+{% block content %}
+
+<div class="page-container">
+
+    <div class="dashboard-welcome">
+
+        <div>
+
+            <span class="eyebrow">
+                CAR PRICE PREDICTION
+            </span>
+
+            <h1>
+                Welcome back,
+                <span>{{ session.get("name") }}</span>! 👋
+            </h1>
+
+            <p>
+                Predict your car's estimated selling price
+                using our Machine Learning model.
+            </p>
+
+        </div>
+
+        <a
+            href="{{ url_for('predict') }}"
+            class="primary-button"
+        >
+            + New Prediction
+        </a>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-icon blue">
+                📈
+            </div>
+
+            <div>
+                <h3>Total Predictions</h3>
+
+                <strong>
+                    {{ total_predictions }}
+                </strong>
+
+                <p>
+                    Predictions made by you
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon green">
+                ₹
+            </div>
+
+            <div>
+
+                <h3>Latest Prediction</h3>
+
+                <strong>
+                    {% if latest %}
+                        ₹{{ "%.2f"|format(latest["predicted_price"]) }} L
+                    {% else %}
+                        —
+                    {% endif %}
+                </strong>
+
+                <p>
+                    Latest estimated selling price
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon purple">
+                ✓
+            </div>
+
+            <div>
+
+                <h3>Account Status</h3>
+
+                <strong>
+                    Active
+                </strong>
+
+                <p>
+                    Your account is protected
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="prediction-banner">
+
+            <span class="banner-label">
+                ✨ MACHINE LEARNING
+            </span>
+
+            <h2>
+                Estimate Your Car's Value
+            </h2>
+
+            <p>
+                Enter your car's details and our trained
+                Machine Learning model will estimate
+                its selling price in seconds.
+            </p>
+
+            <a
+                href="{{ url_for('predict') }}"
+                class="white-button"
+            >
+                Predict Car Price →
+            </a>
+
+        </div>
+
+
+        <div class="quick-card">
+
+            <div class="quick-header">
+                <span>QUICK ACTIONS</span>
+                ⚡
+            </div>
+
+            <a
+                href="{{ url_for('predict') }}"
+                class="quick-action"
+            >
+                <span class="quick-icon blue">
+                    🧮
+                </span>
+
+                <span>
+                    <strong>New Prediction</strong>
+                    <small>Estimate car price</small>
+                </span>
+
+                <b>›</b>
+            </a>
+
+
+            <a
+                href="{{ url_for('history') }}"
+                class="quick-action"
+            >
+                <span class="quick-icon green">
+                    ◷
+                </span>
+
+                <span>
+                    <strong>Prediction History</strong>
+                    <small>View previous predictions</small>
+                </span>
+
+                <b>›</b>
+            </a>
+
+
+            <a
+                href="{{ url_for('profile') }}"
+                class="quick-action"
+            >
+                <span class="quick-icon purple">
+                    👤
+                </span>
+
+                <span>
+                    <strong>My Profile</strong>
+                    <small>Manage your account</small>
+                </span>
+
+                <b>›</b>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="section-heading">
+
+        <div>
+            <span class="eyebrow">ACTIVITY</span>
+            <h2>Recent Predictions</h2>
+        </div>
+
+        <a href="{{ url_for('history') }}">
+            View All →
+        </a>
+
+    </div>
+
+
+    <div class="table-card">
+
+        {% if recent_predictions %}
+
+        <div class="table-responsive">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>DATE</th>
+                        <th>YEAR</th>
+                        <th>FUEL</th>
+                        <th>TRANSMISSION</th>
+                        <th>KILOMETERS</th>
+                        <th>PREDICTED PRICE</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for item in recent_predictions %}
+
+                    <tr>
+
+                        <td>
+                            {{ item["created_at"] }}
+                        </td>
+
+                        <td>
+                            {{ item["year"] }}
+                        </td>
+
+                        <td>
+                            <span class="badge">
+                                {{ item["fuel_type"] }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ item["transmission"] }}
+                        </td>
+
+                        <td>
+                            {{ "{:,.0f}".format(item["kms_driven"]) }} km
+                        </td>
+
+                        <td class="price-cell">
+                            ₹{{ "%.2f"|format(item["predicted_price"]) }} L
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="empty-state">
+
+            <div>
+                🚗
+            </div>
+
+            <h3>No predictions yet</h3>
+
+            <p>
+                Create your first car price prediction.
+            </p>
+
+            <a
+                href="{{ url_for('predict') }}"
+                class="primary-button"
+            >
+                Make Prediction →
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}
